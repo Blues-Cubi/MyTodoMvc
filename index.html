@@ -9,7 +9,9 @@
 		<link rel="stylesheet" href="css/app.css">
 	</head>
 	<body ng-app="MyTodoMvc">
-		<section class="todoapp" ng-controller="MainController">
+	<div ng-view=""></div>
+	<script id="main_tmpl" type="text/ng-template">
+		<section class="todoapp" >
 			<header class="header">
 				<h1>todos</h1>
 				<form ng-submit="add()">
@@ -25,15 +27,15 @@
 					<!-- List items should get the class `editing` when editing and `completed` when marked as completed -->
 					<li ng-repeat="todo in todos|filter:selector" ng-class="{completed:todo.completed ,editing:todo.id === currentEdting}">
 						<div class="view">
-						<input class="toggle" type="checkbox" ng-model="todo.completed">
-						<label ng-dblclick="edting(todo.id)">{{todo.text}}</label>
-						<button class="destroy" ng-click="remove(todo.id)"></button>
+							<input class="toggle" type="checkbox" ng-model="todo.completed">
+							<label ng-dblclick="edting(todo.id)">{{todo.text}}</label>
+							<button class="destroy" ng-click="remove(todo.id)"></button>
 						</div>
 						<form ng-submit="save()">
 							<input class="edit" ng-model="todo.text" >
 						</form>
 					</li>
-					
+
 				</ul>
 			</section>
 			<!-- This footer should hidden by default and shown when there are todos -->
@@ -43,19 +45,20 @@
 				<!-- Remove this if you don't implement routing -->
 				<ul class="filters">
 					<li>
-						<a ng-class="{selected:$location.path() == '/'}" href="#!/">All</a>
+						<a ng-class="{selected:selector.completed === undefined}" href="#!/">All</a>
 					</li>
 					<li>
-						<a ng-class="{selected:$location.path() == '/active'}" href="#!/active">Active</a>
+						<a ng-class="{selected:selector.completed == false}" href="#!/active">Active</a>
 					</li>
 					<li>
-						<a ng-class="{selected:$location.path() == '/completed'}" href="#!/completed">Completed</a>
+						<a ng-class="{selected:selector.completed == true}" href="#!/completed">Completed</a>
 					</li>
 				</ul>
 				<!-- Hidden if no completed items are left ↓ -->
 				<button class="clear-completed" ng-click="clear()" ng-show="existCompleated()">Clear completed</button>
 			</footer>
 		</section>
+	</script>
 		<footer class="info">
 			<p>Double-click to edit a todo</p>
 			<!-- Remove the below line ↓ -->
@@ -66,6 +69,7 @@
 		</footer>
 		<!-- Scripts here. Don't remove ↓ -->
 		<script src="node_modules/angular/angular.js"></script>
+		<script src="node_modules/angular-route/angular-route.js"></script>
 		<script src="js/app.js"></script>
 
 	</body>
